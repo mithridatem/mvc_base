@@ -4,16 +4,19 @@ namespace App\Controller;
 
 //Import du service
 use App\Service\HomeService;
+use App\Service\CatalogueService;
 
 class HomeController
 {
 
     private HomeService $homeService;
+    private CatalogueService $catalogueService;
 
     public function __construct()
     {
         //$this->homeService = $homeService;
         $this->homeService = new HomeService();
+        $this->catalogueService = new CatalogueService();
     }
 
     //Méthode qui retourne le template_home.php avec la méthode render
@@ -40,31 +43,11 @@ class HomeController
         //Titre de la librairie
         $data["nomLibrairie"] = "La Petite Librairie";
         //Tableau de livres
-        $data["livres"] = [
-            ["titre"=>"Le Petit Prince", "auteur" =>"Antoine de Saint-Exupéry", "genre"=>"Conte"],
-            ["titre"=>"Le Petit Chaperon rouge", "auteur" =>"Antoine de Saint-Exupéry", "genre"=>"Conte"],
-            ["titre"=>"Le Hobbit ", "auteur" =>"J. R. R. Tolkien", "genre"=>"Fantasy"],
-            ["titre"=>"Le Seigneur des anneaux ", "auteur" =>"J. R. R. Tolkien", "genre"=>"Fantasy"],
-            ["titre"=>"L’Île au trésor", "auteur" =>"Robert Louis Stevenson", "genre"=>"Aventure"],
-            ["titre"=>"Le conte de Montécristo", "auteur" =>"Robert Louis Stevenson", "genre"=>"Aventure"]
-        ];
-
+        
         //tester si la super globale $_GET["genre"] existe
-        if (isset($_GET["genre"])) {
-            //tableau de livres filtrés
-            $livresFiltre = [];
-            //reconstruire le tableau de livre
-            foreach ($data["livres"] as $livre) {
-                //Tester si un livre posséde le genre (depuis $_GET["genre])
-                if ($_GET["genre"] == $livre["genre"]) {
-                    //Ajouter le livre au tableau de livres filtrés
-                    $livresFiltre[] = $livre;
-                }
-            }
-            //modifier le tableau $data["livre"]
-            $data["livres"] = $livresFiltre;
-        }
+        $data["livres"] = $this->catalogueService->getLivres($_GET["genre"] ?? "");
         //retour du template
+        
         return $this->render("catalogue", "Catalogue", $data);
     }
 
