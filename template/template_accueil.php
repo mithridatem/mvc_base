@@ -22,7 +22,7 @@
             <li><a href="/">Accueil</a></li>
         </ul>
     </nav>
-    <main>
+    <main class="container-fluid">
         <h1>Page accueil</h1>
     </main>
 </body>
