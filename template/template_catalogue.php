@@ -32,8 +32,7 @@
         <!-- Boucle pour afficher les livres -->
         <?php foreach ($data["livres"] ?? [] as $livre) : ?>
             <h2><?= $livre["titre"] ?></h2>
-            <p><?= $livre["auteur"] ?></p>
-            <p><?= $livre["genre"] ?></p>
+            <a href="/livre?id=<?= $livre["id"] ?>">Détail</a>
         <?php endforeach ?>
     </main>
 </body>

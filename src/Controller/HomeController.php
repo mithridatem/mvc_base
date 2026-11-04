@@ -46,9 +46,18 @@ class HomeController
         
         //tester si la super globale $_GET["genre"] existe
         $data["livres"] = $this->catalogueService->getLivres($_GET["genre"] ?? "");
-        //retour du template
         
+        //retour du template
         return $this->render("catalogue", "Catalogue", $data);
+    }
+
+    public function livre(): mixed 
+    {
+        //Récupération du livre par son ID ($_GET["id"])
+        $data["livre"] = $this->catalogueService->findLivreById($_GET["id"] ?? 0);
+    
+        //retour du template
+        return $this->render("livre", "Livre", $data);
     }
 
     //Méthode qui va retourner les templates
